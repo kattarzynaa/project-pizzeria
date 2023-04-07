@@ -107,6 +107,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs); //console.log('inputs: ', thisProduct.formInputs );
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //console.log('button: ', thisProduct.cartButton );
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //console.log('price elem: ',thisProduct.priceElem );
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
 
@@ -190,12 +191,11 @@
           //determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
           const priceOption = option['price'];
-          console.log('option id: ', optionId, 'option: ', option);
+          //console.log('option id: ', optionId, 'option: ', option);
 
           const imagePath = '.'+ paramId + '-' + optionId;
-          console.log('image path: ', imagePath);
-          //const optionImage = thisProduct.imageWrapper.querySelector(imagePath);
-          const optionImage = document.querySelector(imagePath);
+          //console.log('image path: ', imagePath);
+          const optionImage = thisProduct.imageWrapper.querySelector(imagePath);
           console.log('image full path: ', optionImage);
 
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
@@ -204,31 +204,33 @@
           if (optionSelected){
 
             //chceck if the option is not default
-            if(option['default'] != true){
+            if(!option.default){
             //add option price to price variable
               price = price + priceOption;
               //console.log('price: ', price, 'price option: ', priceOption);
               //optionImage.classList.remove(classNames.menuProduct.imageVisible);
             //check if the option is default
             }else{ 
-              if(option['default'] == true){
+              if(option.default){
               //reduce price variable
                 price = price - priceOption;
                 //console.log('price: ', price, 'price option: ', priceOption);
                 //optionImage.classList.remove(classNames.menuProduct.imageVisible);
                 
               }
-            }       
+            }     
+          }  
 
-            if(optionImage) {
-              if(!optionSelected) {
-                optionImage.classList.remove('active');
-              } else {
-                optionImage.classList.add('active');
-              } 
+          if(optionImage){
+            if(optionSelected) {
+            // add class active to image
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
+            } else {
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
             }
-
           }
+
+          
         }
         //update calculated price in the HTML
         thisProduct.priceElem.innerHTML = price;
