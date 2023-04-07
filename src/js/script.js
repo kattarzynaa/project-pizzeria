@@ -165,9 +165,6 @@
     processOrder(){
       const thisProduct = this;
 
-
-
-
       //convert  form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers'] }
       const formData = utils.serializeFormToObject(thisProduct.form);
       //console.log('form data: ', formData);
@@ -186,43 +183,58 @@
         const param = thisProduct.data.params[paramId];
         //console.log('param id: ', paramId, 'param: ', param);
          
-
-
         //for every option in this category ---tutaj pracujemy
         for(let optionId in param.options) {
 
-          
 
           //determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
           const priceOption = option['price'];
-          //console.log('option id: ', optionId, 'option: ', option);
+          console.log('option id: ', optionId, 'option: ', option);
+
+          const imagePath = '.'+ paramId + '-' + optionId;
+          console.log('image path: ', imagePath);
+          //const optionImage = thisProduct.imageWrapper.querySelector(imagePath);
+          const optionImage = document.querySelector(imagePath);
+          console.log('image full path: ', optionImage);
+
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
                    
           //check if there is param with a name of paramId in formData and if it includes optionId
-          if (formData[paramId] && formData[paramId].includes(optionId)){
-
+          if (optionSelected){
 
             //chceck if the option is not default
             if(option['default'] != true){
             //add option price to price variable
               price = price + priceOption;
               //console.log('price: ', price, 'price option: ', priceOption);
-            }
+              //optionImage.classList.remove(classNames.menuProduct.imageVisible);
             //check if the option is default
-          }else{ 
-            if(option['default'] == true){
-            //reduce price variable
-              price = price - priceOption;
-              //console.log('price: ', price, 'price option: ', priceOption);
+            }else{ 
+              if(option['default'] == true){
+              //reduce price variable
+                price = price - priceOption;
+                //console.log('price: ', price, 'price option: ', priceOption);
+                //optionImage.classList.remove(classNames.menuProduct.imageVisible);
+                
+              }
+            }       
+
+            if(optionImage) {
+              if(!optionSelected) {
+                optionImage.classList.remove('active');
+              } else {
+                optionImage.classList.add('active');
+              } 
             }
+
           }
         }
+        //update calculated price in the HTML
+        thisProduct.priceElem.innerHTML = price;
       }
-      //update calculated price in the HTML
-      thisProduct.priceElem.innerHTML = price;
     }
   }
-
 
   const app = {
 
