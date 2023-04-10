@@ -72,6 +72,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
      
       //--console.log('new Product: ', thisProduct);
@@ -108,6 +109,7 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //console.log('button: ', thisProduct.cartButton );
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //console.log('price elem: ',thisProduct.priceElem );
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget); 
     }
 
 
@@ -196,7 +198,7 @@
           const imagePath = '.'+ paramId + '-' + optionId;
           //console.log('image path: ', imagePath);
           const optionImage = thisProduct.imageWrapper.querySelector(imagePath);
-          console.log('image full path: ', optionImage);
+          //console.log('image full path: ', optionImage);
 
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
                    
@@ -235,6 +237,49 @@
         //update calculated price in the HTML
         thisProduct.priceElem.innerHTML = price;
       }
+    }
+
+    initAmountWidget(){
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new amountWidget(thisProduct.amountWidgetElem);
+    }
+
+  }
+
+  class amountWidget {
+    constructor(element){
+      const thisWidget = this;
+
+      console.log('Amount Widget: ', thisWidget);
+      console.log('Constructor arguments: ', element);
+
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+    }
+    
+    getElements(element){
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input); // Okienko z ilością
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease); // ---
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease); // +++
+    }
+
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+      //[TO DO] ADD VALIDATION
+
+      if(thisWidget.value !== newValue && !isNaN(newValue)){
+        thisWidget.value = newValue;
+      }
+
+      thisWidget.value = newValue;
+      thisWidget.input.value = thisWidget.value;
+
     }
   }
 
