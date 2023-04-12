@@ -368,6 +368,7 @@
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger); console.log('toglle trigger: ', thisCart.dom.toggleTrigger );
     }
+    
 
     initAction(){
       const thisCart = this; 
