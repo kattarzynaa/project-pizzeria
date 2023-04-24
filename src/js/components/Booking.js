@@ -1,49 +1,45 @@
 import { templates, select } from '../settings.js';
+import amountWidget from './AmountWidget.js';
 
 class booking {
-    constructor(element){
+  constructor(element){
 
-        const thisBooking = this; 
+    const thisBooking = this; 
 
-        thisBooking.getElement();
-        thisBooking.render(element);
-        thisBooking.initWidgets();
-    }
+    thisBooking.render(element);
+    thisBooking.initWidgets();
+  }
 
-    getElement() {
+  render(element){
 
-        const thisBooking = this; 
-
-   
-    }
-
-    render(element){
-
-        const thisBooking = this; 
+    const thisBooking = this;
     
-        /* generate HTML based on template */
-        const generatedHTML = templates.bookingWidget()
     
+    thisBooking.dom = {};
+    thisBooking.dom.wrapper = element;
+    
+    /* generate HTML based on template */
+    const generatedHTML = templates.bookingWidget();
+    thisBooking.dom.wrapper.innerHTML = generatedHTML;
 
-        thisBooking.dom = {
-            wrapper: element,
-            peopleAmount: thisBooking.peopleAmount,
-            hoursAmount: select.booking.hoursAmount,
-        }
 
-        thisBooking.dom.wrapper.innerHTML = generatedHTML;
+    thisBooking.dom.wrapper = element;
+    thisBooking.dom.amountWidget = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
+    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
 
-        thisBooking.peopleAmount = document.querySelector(select.booking.peopleAmount);
-        thisBooking.peopleAmount = document.querySelector(select.booking.peopleAmount);
-        console.log('thisBooking', thisBooking.dom);
-        console.log('element', thisBooking.element);
-        console.log('peopleAmount', thisBooking.peopleAmount);
+  }
 
-    }
+  initWidgets(){
 
-    initWidgets(){
+    const thisBooking = this; 
 
-    }
+    thisBooking.amountWidget = new amountWidget(thisBooking.dom.amountWidget);
+    thisBooking.dom.amountWidget.addEventListener('updated', function(){console.log('amountWidget');});
+
+    thisBooking.hoursAmount = new amountWidget(thisBooking.dom.hoursAmount);
+    thisBooking.dom.hoursAmount.addEventListener('updated', function(){console.log('hoursAmount');});
+
+  }
 }
 
 export default booking; 
