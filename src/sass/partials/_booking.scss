@@ -138,6 +138,10 @@
     height: 50px;
     line-height: 50px;
   }
+
+  .pickTable {
+    background: #93C572;
+  }
   
   .table {
     @extend .h2;
@@ -171,7 +175,7 @@
         background: $color-dark;
         opacity: 0.4;
       }
-  
+
     }
   }
   
@@ -198,3 +202,5 @@
   @include flex(row, flex-start, space-between);
   margin: ($base-size * 4) auto;
 }
+
+
